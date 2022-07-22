@@ -7,6 +7,13 @@ The project has the following goals:
 * Define [fact](https://en.wikipedia.org/wiki/Star_schema#Fact_tables) and [dimension](https://en.wikipedia.org/wiki/Star_schema#Dimension_tables) tables
 * Insert data into tables
 * Create ETL pipeline with Python
+## Repo Contents
+The project includes ```data``` folder with *song* and *log* datasets, as well as the following files:
+  * ```test.ipynb```: displays the first few rows of each table to check the database.
+  * ```create_tables.py```: drops and creates tables.
+  * ```etl.ipynb```: reads and processes a single file from ```data/song_data``` and ```data/log_data```and loads the data into tables. This notebook contains detailed instructions on the ETL process for each of the tables.
+  * ```etl.py```: reads and processes files from ```data/song_data``` and ```data/log_data``` and loads them into tables.
+  * ```sql_queries.py```: contains all SQL queries.
 ## Database
 ### Database Purpose
 A startup called Sparkify wants to analyze the data they've been collecting on songs and user activity on their music streaming app. The **sparkifydb** database is designed to optimize queries on song play analysis.
