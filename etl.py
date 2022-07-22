@@ -39,29 +39,64 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Function to perform ETL on log dataset.
+    Inserts records in time, users, and songplays tables.
+
+    Args:
+        cur (refcursor): Cursor to execute database queries
+        filepath (string): Name of log file
+    Returns:
+        no value
+    """
     # open log file
-    df =
+    df = pd.read_json(filepath, lines=True)
 
     # filter by NextSong action
-    df =
+    df = df[df['page'] == 'NextSong']
 
     # convert timestamp column to datetime
-    t =
+    t = pd.to_datetime(df['ts'], unit='ms')
 
     # insert time data records
-    time_data =
-    column_labels =
-    time_df =
+    time_data = [
+        t,
+        t.dt.hour,
+        t.dt.day,
+        t.dt.week,
+        t.dt.month,
+        t.dt.year,
+        t.dt.weekday]
+
+    column_labels = (
+        'start_time',
+        'hour',
+        'day',
+        'week_of_year',
+        'month',
+        'year',
+        'weekday')
+
+    time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df =
+    user_df = df[[
+        'userId',
+        'firstName',
+        'lastName',
+        'gender',
+        'level']]
 
     # insert user records
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
+
+
+    # convert data in ts column to timestamp
+    df['ts'] = pd.to_datetime(df['ts'],unit='ms')
 
     # insert songplay records
     for index, row in df.iterrows():
@@ -76,7 +111,16 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data =
+        songplay_data = [
+            row.ts,
+            row.userId,
+            row.level,
+            songid,
+            artistid,
+            row.sessionId,
+            row.location,
+            row.userAgent]
+
         cur.execute(songplay_table_insert, songplay_data)
 
 
@@ -85,7 +129,7 @@ def process_data(cur, conn, filepath, func):
     all_files = []
     for root, dirs, files in os.walk(filepath):
         files = glob.glob(os.path.join(root,'*.json'))
-        for f in files :
+        for f in files:
             all_files.append(os.path.abspath(f))
 
     # get total number of files found
