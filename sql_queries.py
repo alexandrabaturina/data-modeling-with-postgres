@@ -121,9 +121,11 @@ time_table_insert = ("""
     ON CONFLICT (start_time) DO NOTHING
 """)
 
-# FIND SONGS
+# Find songs
 
 song_select = ("""
+    SELECT song_id, songs.artist_id
+    FROM songs JOIN artists ON songs.artist_id = artists.artist_id
 """)
 
 # Query lists
