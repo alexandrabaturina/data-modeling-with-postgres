@@ -74,3 +74,21 @@ The **sparkifydb** database contains the following tables:
 
 The **sparkifybd** schema is shown below. Primary and foreign keys are marked as ```PK``` and ```FK```, respectively.
 ![image](https://user-images.githubusercontent.com/53233637/180519805-7caaa73b-1499-4ba2-b0aa-6ec40c0d2f65.png)
+
+## Getting Started
+To run ETL pipeline locally,
+1. Clone this repo.
+2. ```cd``` into project directory.
+3. Run ```create_tables.py``` to create database and tables:
+```sh
+pyhton create_tables.py
+```
+ > To confirm the creation of tables with correct columns, run ```test.ipynb```. Make sure to click **Restart kernel** to close the connection to the database after running this notebook.
+4. Run ```etl.py``` to fill the tables:
+```sh
+python etl.py
+```
+ > Remember to run ```create_tables.py``` before running ```etl.py``` to reset tables.
+
+## Authors
+Alexandra Baturina
