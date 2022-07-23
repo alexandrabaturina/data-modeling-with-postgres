@@ -44,7 +44,7 @@ artist_table_create = ("""
         artist_id char(18) PRIMARY KEY,
         name varchar,
         location varchar,
-        latitide float,
+        latitude float,
         longitude float);
 """)
 
@@ -103,7 +103,7 @@ artist_table_insert = ("""
         artist_id,
         name,
         location,
-        latitide,
+        latitude,
         longitude)
     VALUES (%s, %s, %s, %s, %s)
     ON CONFLICT (artist_id) DO NOTHING
